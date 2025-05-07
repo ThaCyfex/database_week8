@@ -1,167 +1,142 @@
 # database_week8
-# Advanced Task Manager API
 
-## Description
-The Advanced Task Manager API is a backend service designed to manage tasks and users with advanced features such as JWT authentication, role-based access control, and full-text search. It is built using FastAPI and PostgreSQL, providing a robust and scalable solution for task management.
+# Advanced Library Management System
 
-The project includes:
-- A well-structured relational database with advanced constraints and relationships.
-- A fully functional CRUD API for managing tasks and users.
-- Secure authentication and authorization using JWT.
-- Modular and scalable codebase following best practices.
+## 📚 Project Overview
+
+The **Advanced Library Management System** is a robust and scalable application designed to manage library operations efficiently. It includes features such as user management, book tracking, loan management, and fines calculation. The system is built with a South African context in mind, ensuring cultural relevance and compliance with local standards.
 
 ---
 
-## How to Run/Setup the Project
+## 🚀 Features
 
-### Prerequisites
-1. **Python**: Version 3.9 or higher.
-2. **PostgreSQL**: Version 12 or higher.
-3. **Redis**: For rate limiting.
-4. **Pip**: Python package manager.
+- **Database Management**:
+  - Well-structured relational database with advanced constraints.
+  - Support for JSON fields for flexible data storage.
+  - Full-text search and optimized indexes for performance.
+  - Triggers, stored procedures, and events for business logic.
 
-### Steps to Run
-1. **Clone the Repository**:
-   ```bash
-   git clone <repository-url>
-   cd Library-API
-   ```
+- **API**:
+  - Built with **FastAPI** for high performance and scalability.
+  - JWT authentication for secure access.
+  - CRUD operations for users, tasks, categories, books, loans, and fines.
+  - Rate limiting and CORS middleware for enhanced security.
 
-2. **Set Up the Database**:
-   - Create a PostgreSQL database.
-   - Import the SQL schema:
-     ```bash
-     psql -U <username> -d <database_name> -f task_manager.sql
-     ```
-
-3. **Install Dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Configure Environment Variables**:
-   - Create a `.env` file in the `app/` directory with the following:
-     ```
-     DATABASE_URL=postgresql+asyncpg://<username>:<password>@<host>:<port>/<database_name>
-     REDIS_HOST=<redis_host>
-     REDIS_PORT=<redis_port>
-     ```
-
-5. **Run the Application**:
-   ```bash
-   uvicorn app.main:app --reload
-   ```
-
-6. **Access the API**:
-   - Swagger UI: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
-   - ReDoc: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
+- **South African Context**:
+  - Sample data includes South African names and addresses.
+  - Designed to handle local use cases and standards.
 
 ---
 
-## Entity-Relationship Diagram (ERD)
-Below is the ERD for the Task Manager database:
+## 🛠️ Technologies Used
 
-![ERD](docs/erd.png)
+- **Backend**: FastAPI (Python)
+- **Database**: MySQL (Library Management) and PostgreSQL (Task Manager)
+- **ORM**: SQLAlchemy with async support
+- **Authentication**: JWT
+- **Other Tools**: Redis (Rate Limiting), dbdiagram.io (ERD)
 
 ---
 
-## Project Structure
+## 📂 Project Structure
+
 ```
-Library-API/
-│
-├── README.md                # Project documentation
-├── task_manager.sql         # SQL file for creating the database
-│
-├── app/                     # Source code for the FastAPI application
-│   ├── main.py              # Entry point for the FastAPI application
-│   ├── database.sql         # Database connection and session management
-│   ├── models/              # Database models
-│   │   ├── user.py          # User model
-│   │   └── ...              # Other models (if any)
-│   ├── schemas/             # Pydantic schemas for data validation
-│   │   ├── user.py          # User schemas
-│   │   └── ...              # Other schemas (if any)
-│   ├── api/                 # API endpoints
-│   │   ├── v1/              # Versioned API
-│   │   │   ├── endpoints/   # Endpoint files
-│   │   │   │   ├── users.py # User-related endpoints
-│   │   │   │   └── ...      # Other endpoint files (if any)
-│   │   │   └── routers.py   # Router definitions (if applicable)
-│   └── config/              # Configuration files (e.g., settings.py)
-│
-└── docs/                    # Documentation
-    ├── erd.png              # Screenshot of the ERD
-    └── ...                  # Other documentation files (if any)
+Library API/
+├── app/
+│   ├── api/
+│   │   └── v1/
+│   │       └── endpoints/
+│   │           └── users.py
+│   ├── models/
+│   │   └── user.py
+│   ├── schemas/
+│   │   └── user.py
+│   ├── main.py
+│   ├── database.sql
+│   └── config.py
+├── docs/
+│   └── erd.svg
+├── task_manager.sql
+└── README.md
 ```
 
 ---
 
-## Code and Logic Explanation
+## 🖼️ Entity Relationship Diagram (ERD)
 
-### **1. Database Schema (`task_manager.sql`)**
-- **Purpose**: Defines the database structure for the Task Manager.
-- **Key Features**:
-  - **Users Table**: Stores user information with constraints like unique email and username.
-  - **Tasks Table**: Stores task details with relationships to users.
-  - **Categories Table**: Allows categorization of tasks.
-  - **Task-Categories Table**: Implements a many-to-many relationship between tasks and categories.
-  - **Audit Log Table**: Tracks changes to records for auditing purposes.
-  - **Indexes**: Optimized for faster lookups.
-  - **Triggers**: Automatically updates timestamps on record changes.
+Below is the ERD for the **Library Management System**. It illustrates the relationships between the tables in the database.
 
-### **2. FastAPI Application**
-- **`main.py`**:
-  - Entry point for the application.
-  - Configures middleware (e.g., CORS, rate limiting).
-  - Includes application lifecycle management (startup and shutdown events).
-  - Serves API documentation via Swagger and ReDoc.
-
-- **`models/user.py`**:
-  - Defines the `User` model using SQLAlchemy.
-  - Includes methods for password hashing and verification using `passlib`.
-  - Implements relationships to link users to their tasks.
-
-- **`schemas/user.py`**:
-  - Defines Pydantic schemas for user-related data validation.
-  - Includes schemas for user creation, updates, and reading.
-  - Implements validation rules (e.g., email format, username regex).
-
-- **`api/v1/endpoints/users.py`**:
-  - Implements user-related CRUD endpoints.
-  - Includes JWT authentication and role-based access control.
-  - Provides endpoints for login, user creation, reading, updating, and deleting.
-
-- **`database.sql`**:
-  - Configures the database connection using SQLAlchemy's async engine.
-  - Manages database sessions with proper error handling and cleanup.
+![ERD](docs/erd.svg)
 
 ---
 
-## Features
-- **JWT Authentication**: Secure login and token-based authentication.
-- **Role-Based Access Control**: Permissions based on user roles (e.g., admin, regular user).
-- **CRUD Operations**: Create, Read, Update, and Delete tasks and users.
-- **Full-Text Search**: Search tasks by title and description.
-- **Rate Limiting**: Prevent abuse with Redis-based rate limiting.
-- **Scalable Architecture**: Modular and organized codebase for easy maintenance and scalability.
+## ⚙️ How to Run the Project
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/your-username/library-management-system.git
+cd library-management-system
+```
+
+### 2. Set Up the Database
+- Import the SQL files into your database:
+  - For **Library Management**:
+    ```bash
+    mysql -u your_username -p library_management < library_management.sql
+    ```
+  - For **Task Manager**:
+    ```bash
+    psql -U your_username -d task_manager -f task_manager.sql
+    ```
+
+### 3. Configure Environment Variables
+Create a `.env` file in the `app/` directory with the following content:
+```
+DATABASE_URL=mysql+asyncmy://username:password@localhost/library_management
+REDIS_HOST=localhost
+REDIS_PORT=6379
+SECRET_KEY=your_secret_key
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+```
+
+### 4. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 5. Run the Application
+```bash
+uvicorn app.main:app --reload
+```
+
+### 6. Access the API
+- API Documentation: [http://127.0.0.1:8000/api/docs](http://127.0.0.1:8000/api/docs)
+- Redoc Documentation: [http://127.0.0.1:8000/api/redoc](http://127.0.0.1:8000/api/redoc)
 
 ---
 
-## Sample Data
-The database includes the following sample data:
-- **Users**:
-  - `admin@taskmanager.co.za` (Admin User)
-  - `user@taskmanager.co.za` (Regular User)
-- **Tasks**:
-  - "Complete project"
-  - "Write documentation"
-  - "Review code"
-- **Categories**:
-  - "Work"
-  - "Personal"
-  - "Health"
+## 🧪 Testing
+
+To run unit tests:
+```bash
+pytest
+```
 
 ---
 
-## Contact
-For any questions or issues, please contact **Thembelani Bukali**.
+## 📄 License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
+
+---
+
+## 👤 Author
+
+Thembelani Bukali
+
+---
+
+## 🌟 Acknowledgments
+
+- Special thanks to the South African developer community for inspiration and support.
